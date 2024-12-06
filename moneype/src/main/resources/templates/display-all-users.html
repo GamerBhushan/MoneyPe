@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${AppName}">Users</title>
+    <link rel="stylesheet" href="/css/display-all-users.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 th:text="${AppName}">Application</h1>
+            <p>Displaying All Registered Users</p>
+        </header>
+
+        <div class="content">
+            <div th:if="${allUsers.size() == 0}" class="no-users-message">
+                <h2>No Users Found</h2>
+                <p>There are currently no registered users in the system.</p>
+            </div>
+
+            <div th:if="${allUsers.size() > 0}" class="user-table">
+                <h2>All Registered Users</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Account Number</th>
+                            <th>Date of Creation</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${allUsers}">
+                            <td th:text="${user.userId}"></td>
+                            <td th:text="${user.userName}"></td>
+                            <td th:text="${user.userPassword}"></td>
+                            <td th:text="${user.userAccountNumber}"></td>
+                            <td th:text="${user.userDateOfCreation}"></td>
+                            <td th:text="${user.userBalance}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
