@@ -1,0 +1,84 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #4CAF50, #2196F3, #FFC107, #FF5722);
+    background-size: 400% 400%;
+    line-height: 1.6;
+    color: #333;
+    display: flex;
+    align-items: center;
+    animation: gradientAnimation 15s ease infinite;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.header h1 {
+    color: #3b5998;
+    font-size: 2rem;
+}
+
+.header p {
+    color: #606770;
+    font-size: 1rem;
+    margin: 8px 0 20px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.menu-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.menu-button:nth-child(1) { background-color: #3b5998; } /* Sign In Button */
+.menu-button:nth-child(2) { background-color: #4caf50; } /* Sign Up Button */
+.menu-button:nth-child(3) { background-color: #f39c12; } /* Display Users Button */
+.menu-button:nth-child(4) { background-color: #e74c3c; } /* Exit Button */
+
+.menu-button:hover {
+    opacity: 0.9;
+}
+
+.output {
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #f1f3f5;
+    border-radius: 8px;
+    min-height: 50px;
+    font-size: 1rem;
+    color: #333;
+}

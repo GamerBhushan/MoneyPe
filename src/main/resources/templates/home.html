@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${userAccountModel.userName}"></title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body>
+    <div class="container">
+
+    
+        <!-- Sidebar Menu -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="#" onclick="showSection('makeTransaction')">Make a Transaction</a></li>
+                <li><a href="#" onclick="showSection('transactionHistory')">Transaction History</a></li>
+                <li><a href="#" onclick="showSection('depositAmount')">Deposit Amount</a></li>
+                <li><a href="#" onclick="showSection('withdrawAmount')">Withdraw Amount</a></li>
+                <li><a href="#" onclick="showSection('logout')">Logout</a></li>
+                <li><a href="#" onclick="showSection('deleteAccount')">Delete Account</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- User Information Card -->
+            <div class="user-info-card">
+                <h2>Welcome, <span th:text="${userAccountModel.userName}">UserName</span>!</h2>
+                <div class="info-box">
+                    <p><strong>User ID:</strong> <span id="userId" name="userId"
+                            th:text="${userAccountModel.userId}">userId</span></p>
+                    <p><strong>Account Number:</strong> <span
+                            th:text="${userAccountModel.userAccountNumber}">userAccountNumber</span></p>
+                    <p><strong>Date of Creation:</strong> <span
+                            th:text="${userAccountModel.userDateOfCreation}">userDateOfCreation</span></p>
+                    <p><strong>Balance:</strong> $<span th:text="${userAccountModel.userBalance}">0.00</span></p>
+                </div>
+                
+            </div>
+
+
+            <form th:if="${alertMessage}" class="entry-box" id="alertForm">
+                <div class="content-section">
+                    <h3 th:text="${alertMessage}"></h3>
+                    <button type="button" class="action-button" onclick="hideAlert()">Ok</button>
+                </div>
+            </form>
+            
+            <script>
+                // JavaScript function to hide the form
+                function hideAlert() {
+                    try {
+                        document.getElementById("alertForm").style.display = "none";
+                    } catch (error) {
+                    }
+                }
+            </script>
+            
+
+            <!-- Section Containers for Each Menu Item -->
+            <div id="makeTransaction" class="content-section" style="display: none;">
+                <form action="/makeTransaction" method="POST" class="entry-box">
+                    <h3>Make A Transaction</h3>
+                    <label for="transferTo">Enter ID :</label>
+                    <input type="text" id="transferToID" name="transferToID" class="input-field" required>
+                    <input type="hidden" name="transferFromID" id="transferFromID"
+                        th:value="${userAccountModel.userId}">
+                    <label for="amount">Enter Amount :</label>
+                    <input type="text" id="amount" name="amount" class="input-field" required>
+                    <button type="submit" class="action-button">Make A Transaction</button>
+                </form>
+            </div>
+
+            <div id="transactionHistory" class="content-section" style="display: none;">
+                <h3>Your Transactions</h3>
+                <div class="transaction-table-container scrollable-container">
+                    <div th:if="${transactions.size() == 0}">
+                        <p>No transactions available.</p>
+                    </div>
+                    <table th:if="${transactions.size() > 0}" class="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="transaction : ${transactions}">
+                                <td th:text="${transaction.transactionID}">Transaction ID</td>
+                                <td th:text="${transaction.transactionDate}">Date</td>
+                                <td th:text="${transaction.transactionTime}">Time</td>
+                                <td th:text="${transaction.transferFrom}">From</td>
+                                <td th:text="${transaction.transferTo}">To</td>
+                                <td th:text="${transaction.moneyAmount}">Amount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section for Deposit Amount -->
+            <div id="depositAmount" class="content-section" style="display: none;">
+                <form action="/deposit" method="POST" class="entry-box">
+                    <h3>Deposit Amount</h3>
+                    <label for="amount">Enter Amount : </label>
+                    <input type="number" id="amount" name="amount" class="input-field" min="1" required>
+                    <input type="hidden" name="userId" th:value="${userAccountModel.userId}">
+                    <button type="submit" class="action-button">Deposit</button>
+                </form>
+            </div>
+
+
+            <!-- Section for Withdraw Amount -->
+            <div id="withdrawAmount" class="content-section" style="display: none;">
+
+
+                <form action="/withdraw" method="POST" class="entry-box">
+                    <h3>Withdraw Amount</h3>
+                    <label for="withdrawAmountInput">Enter Amount:</label>
+                    <input type="number" id="amount" name="amount" class="input-field" required>
+                    <!-- Pass userId to retrieve userAccountModel on the server side -->
+                    <input type="hidden" th:value="${userAccountModel.userId}" id="userId" name="userId">
+                    <button type="submit" class="action-button">Withdraw</button>
+                </form>
+            </div>
+
+
+            <div id="logout" class="content-section" style="display: none;">
+                <form action="/logout" method="POST" class="entry-box">
+                    <h3>Log Out</h3>
+                    <input type="text" style="text-align: center;" th:value="${userAccountModel.userId}" id="userId"
+                        name="userId" class="input-field" readonly />
+                    <!-- <label>Are You Sure to Logout Your Account ?</label> -->
+                    <!-- <button type="submit" class="action-button">Log out</button> -->
+                    <button type="submit" class="action-button"
+                        onclick="return confirm('Are you sure you want to log out?')">Log out</button>
+                </form>
+            </div>
+
+            <!-- Section for Delete Account -->
+            <div id="deleteAccount" class="content-section" style="display: none;">
+                <form action="/deleteAccount" method="POST" class="entry-box">
+                    <h3>Delete Account</h3>
+                    <input type="text" style="text-align: center;" th:value="${userAccountModel.userId}" id="userId"
+                        name="userId" class="input-field" readonly />
+                    <button type="submit" class="action-button"
+                        onclick="return confirm('Are you sure you want to Delete Your Account ?')">Delete</button>
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+
+    <script>
+        // JavaScript to handle showing the selected section and hiding others
+        function showSection(sectionId) {
+            
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+
+            document.querySelectorAll('.sidebar ul li a').forEach(link => {
+                link.classList.remove('selected');
+            });
+            document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('selected');
+            hideAlert();
+        }
+
+    </script>
+</body>
+
+</html>

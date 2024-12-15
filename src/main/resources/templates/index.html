@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${AppName}">Application</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h3>Welcome to</h3>
+            <h1 th:text="${AppName}">Application</h1>
+            <p>Secure and easy transactions for everyone.</p>
+        </header>
+
+        <div class="menu">
+            <button class="menu-button" onclick="routeTo('/signin')">Sign In</button>
+            <button class="menu-button" onclick="routeTo('/signup')">Sign Up</button>
+            <button class="menu-button" onclick="routeTo('/display-all-users')">Display All Users</button>
+            <button class="menu-button" onclick="exitApp()">Exit</button>
+        </div>        
+
+        <div id="output" class="output">
+            <!-- Output for messages or form content will appear here -->
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+    
+</body>
+</html>
